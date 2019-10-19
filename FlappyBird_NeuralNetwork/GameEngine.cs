@@ -26,7 +26,7 @@ namespace FlappyBird_NeuralNetwork
     public class GameEngine
     {        
         public int pipeSpeed = 5;
-        public int distanceBetweenPipes = 500;
+        public int distanceBetweenPipes = 300;
         public int gravity = 8;
         public int jump = 5;
 
@@ -36,8 +36,8 @@ namespace FlappyBird_NeuralNetwork
 
         public int birdPopulation = 1;
 
-        public int minimumPipeLength = 150;
-        public int pipeGap = 140;
+        public int minimumPipeLength = 120;
+        public int pipeGap = 100;
 
         Form form;        
         System.Windows.Forms.Timer gameTimer;
@@ -48,6 +48,8 @@ namespace FlappyBird_NeuralNetwork
         public List<PictureBox> flapyBirds;
 
         private List<NeuralNetwork> brains;
+
+        public NeuralNetwork fittestBrain;
 
         public List<NeuralDetails> detailsList = new List<NeuralDetails>();
 
@@ -83,7 +85,7 @@ namespace FlappyBird_NeuralNetwork
             brains = null;
             birdPopulation = 1;
             AI_enabled = false;
-        }
+        }        
 
         public List<double> UpdateBirdBrainInput()
         {
@@ -164,10 +166,7 @@ namespace FlappyBird_NeuralNetwork
                     {
                         flapyBirds[i].Top += jump;
                     }
-                }
-
-                if (detailsForm!=null)
-                    detailsForm.UpdateDetails(detailsList);
+                }                
             }
 
 
@@ -227,6 +226,9 @@ namespace FlappyBird_NeuralNetwork
                             //epoch end
                             //breeeding time
                             epochNo++;
+                            fittestBrain = brains.OrderByDescending(b => b.fitness).ToList()[0];
+                            if (detailsForm != null)
+                                detailsForm.UpdateDetails(fittestBrain);
                             //create new brains                                 
                             brains = NeuralNetworkBreeding.BreedByMutationOnly(brains, random);
                             birdPopulation = brains.Count;
@@ -286,8 +288,8 @@ namespace FlappyBird_NeuralNetwork
             for (int i = 0; i < birdPopulation; i++)
             {
                 PictureBox flappyBird = new PictureBox();
-                flappyBird.Width = 39;
-                flappyBird.Height = 34;
+                flappyBird.Width = 25;
+                flappyBird.Height = 21;
                 flappyBird.Location = new System.Drawing.Point(112, initialBirdPosition(0));
                 flappyBird.Image = Properties.Resources.bird;
                 flappyBird.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -304,7 +306,7 @@ namespace FlappyBird_NeuralNetwork
 
         public int initialBirdPosition(int variable)
         {
-            return (form.Height / 2) + 50 + variable;
+            return (form.Height / 3) + variable;
         }
 
         public void generatePipes()
@@ -320,14 +322,14 @@ namespace FlappyBird_NeuralNetwork
         public List<PictureBox> generatePipePair()
         {
             PictureBox pipeTop = new PictureBox();
-            pipeTop.Width = 138;
-            pipeTop.Location = new System.Drawing.Point(form.Width - pipeTop.Width, 3);
+            pipeTop.Width = 100;
+            pipeTop.Location = new System.Drawing.Point(form.Width - pipeTop.Width, 0);
             pipeTop.Image = Properties.Resources.pipedown;
             pipeTop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 
             PictureBox pipeBottom = new PictureBox();
-            pipeBottom.Width = 138;
-            pipeBottom.Location = new System.Drawing.Point(form.Width - pipeTop.Width, 707);
+            pipeBottom.Width = 100;
+            pipeBottom.Location = new System.Drawing.Point(form.Width - pipeTop.Width, form.Height);
             pipeBottom.Image = Properties.Resources.pipe;
             pipeBottom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 

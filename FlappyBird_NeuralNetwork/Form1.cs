@@ -25,8 +25,8 @@ namespace FlappyBird_NeuralNetwork
         {
             AI_enabled = false;
             InitializeComponent();
-            
-            gEngine = new GameEngine(this, gameTimer, ground);            
+
+            gEngine = new GameEngine(this, gameTimer, ground);                
         }        
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -102,7 +102,7 @@ namespace FlappyBird_NeuralNetwork
         private void btnDetails_Click(object sender, EventArgs e)
         {
             this.ActiveControl = null;
-            detailsForm = new NeuralDetailsForm(gEngine.detailsList);
+            detailsForm = new NeuralDetailsForm(gEngine.fittestBrain);//gEngine.detailsList);
             detailsForm.Show();
         }
     }

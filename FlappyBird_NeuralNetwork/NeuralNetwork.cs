@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlappyBird_NeuralNetwork
 {
-    class Neuron
+    public class Neuron
     {
         public int layerIndex;
         public int positionIndex;
@@ -45,7 +45,7 @@ namespace FlappyBird_NeuralNetwork
         }
     }
 
-    class Synapse
+    public class Synapse
     {        
         public Neuron originNeuron;
         public double weight = 0;        
@@ -56,7 +56,7 @@ namespace FlappyBird_NeuralNetwork
         double CROSSOVER_RATE = 0.8;
         double MUTATION_RATE = 0.1;
 
-        List<List<Neuron>> neuralLayers;
+        public List<List<Neuron>> neuralLayers;
 
         public double fitness=0;        
 
@@ -76,7 +76,7 @@ namespace FlappyBird_NeuralNetwork
             for (int i = 0; i < hiddenLayersNumber; i++)
             {
                 List<Neuron> hiddenLayer = new List<Neuron>();
-                int size_of_hidden_layers = (inputLayerSize + outputLayerSize) / 2;
+                int size_of_hidden_layers = 4;//(inputLayerSize + outputLayerSize) / 2;
                 for (int j = 0; j < size_of_hidden_layers; j++)
                 {
                     hiddenLayer.Add(new Neuron { layerIndex = i + 1, positionIndex = j });
