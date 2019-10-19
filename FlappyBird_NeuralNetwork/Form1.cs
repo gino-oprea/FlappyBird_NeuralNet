@@ -17,6 +17,7 @@ namespace FlappyBird_NeuralNetwork
         GameEngine gEngine;
         List<BirdSensors> sensors;
         bool AI_enabled;
+        bool detailsOpen = false;
 
         NeuralDetailsForm detailsForm;
 
@@ -24,10 +25,8 @@ namespace FlappyBird_NeuralNetwork
         {
             AI_enabled = false;
             InitializeComponent();
-
             
-            gEngine = new GameEngine(this, gameTimer, ground);
-            detailsForm = new NeuralDetailsForm(gEngine.detailsList);
+            gEngine = new GameEngine(this, gameTimer, ground);            
         }        
 
         private void gameTimer_Tick(object sender, EventArgs e)
@@ -85,10 +84,7 @@ namespace FlappyBird_NeuralNetwork
                 gEngine.endGame();
                 gEngine.DisableAI();                
                 gEngine.startGame();
-            }
-
-            
-            detailsForm.Show();
+            }           
         }
 
         private void btnPause_Click(object sender, EventArgs e)
@@ -101,6 +97,13 @@ namespace FlappyBird_NeuralNetwork
         {
             this.gameTimer.Start();
             this.ActiveControl = null;
+        }
+
+        private void btnDetails_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = null;
+            detailsForm = new NeuralDetailsForm(gEngine.detailsList);
+            detailsForm.Show();
         }
     }
 }

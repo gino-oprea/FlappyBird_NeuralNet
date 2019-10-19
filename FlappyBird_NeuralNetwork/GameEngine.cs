@@ -72,7 +72,7 @@ namespace FlappyBird_NeuralNetwork
             brains = new List<NeuralNetwork>();
             for (int i = 0; i < birdPopulation; i++)
             {
-                NeuralNetwork brain = new NeuralNetwork(3, 1, 1, random);
+                NeuralNetwork brain = new NeuralNetwork(3, 1, 2, random);
                 brains.Add(brain);
             }
 
@@ -126,9 +126,24 @@ namespace FlappyBird_NeuralNetwork
             return outputActions;
         }
 
+        public int getMaxScore(int[] arr)
+        {
+            int max = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] > max)
+                    max = arr[i];
+            }
+
+            return max;
+        }
+
 
         public void UpdateGameFrame(NeuralDetailsForm detailsForm)
-        {
+        {            
+            form.Controls["lblEpoch"].Text = "Generation " + epochNo;
+            form.Controls["lblScore"].Text = "Score: " + getMaxScore(gameScore);
+
             if (pipes == null || pipes.Count == 0 ||
                     form.Width - pipes[pipes.Count - 1][0].Width - pipes[pipes.Count - 1][0].Left > distanceBetweenPipes)
                 generatePipes();
@@ -151,7 +166,8 @@ namespace FlappyBird_NeuralNetwork
                     }
                 }
 
-                detailsForm.UpdateDetails(detailsList);
+                if (detailsForm!=null)
+                    detailsForm.UpdateDetails(detailsList);
             }
 
 
@@ -288,7 +304,7 @@ namespace FlappyBird_NeuralNetwork
 
         public int initialBirdPosition(int variable)
         {
-            return (form.Height / 2) + variable;
+            return (form.Height / 2) + 50 + variable;
         }
 
         public void generatePipes()
@@ -343,13 +359,14 @@ namespace FlappyBird_NeuralNetwork
         public void endGame()
         {
             this.gameTimer.Stop();
-            Thread.Sleep(1000);
+
             //remove pipes
-            for (int i = 0; i < pipes.Count; i++)
-            {
-                form.Controls.Remove(pipes[i][0]);//top
-                form.Controls.Remove(pipes[i][1]);//bottom                
-            }
+            if (pipes != null)
+                for (int i = 0; i < pipes.Count; i++)
+                {
+                    form.Controls.Remove(pipes[i][0]);//top
+                    form.Controls.Remove(pipes[i][1]);//bottom                
+                }
             pipes = null;
 
             //remove birds
@@ -358,7 +375,9 @@ namespace FlappyBird_NeuralNetwork
                 if (flapyBirds.Count > 0)
                     form.Controls.Remove(flapyBirds[i]);
             }
-            flapyBirds = null;            
+            flapyBirds = null;
+
+            Thread.Sleep(1000);
         }
         public void startGame()
         {

@@ -31,21 +31,23 @@
             this.components = new System.ComponentModel.Container();
             this.ground = new System.Windows.Forms.PictureBox();
             this.gameTimer = new System.Windows.Forms.Timer(this.components);
-            this.lblDistanceToPipe = new System.Windows.Forms.Label();
-            this.lblDistanceToUpperPipe = new System.Windows.Forms.Label();
+            this.lblScore = new System.Windows.Forms.Label();
+            this.lblEpoch = new System.Windows.Forms.Label();
             this.lblDistanceToBootomPipe = new System.Windows.Forms.Label();
             this.btnEnableAI = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
+            this.btnDetails = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ground)).BeginInit();
             this.SuspendLayout();
             // 
             // ground
             // 
             this.ground.Image = global::FlappyBird_NeuralNetwork.Properties.Resources.ground;
-            this.ground.Location = new System.Drawing.Point(0, 910);
+            this.ground.Location = new System.Drawing.Point(0, 739);
+            this.ground.Margin = new System.Windows.Forms.Padding(2);
             this.ground.Name = "ground";
-            this.ground.Size = new System.Drawing.Size(1831, 54);
+            this.ground.Size = new System.Drawing.Size(1373, 44);
             this.ground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ground.TabIndex = 3;
             this.ground.TabStop = false;
@@ -56,35 +58,39 @@
             this.gameTimer.Interval = 15;
             this.gameTimer.Tick += new System.EventHandler(this.gameTimer_Tick);
             // 
-            // lblDistanceToPipe
+            // lblScore
             // 
-            this.lblDistanceToPipe.AutoSize = true;
-            this.lblDistanceToPipe.Location = new System.Drawing.Point(12, 927);
-            this.lblDistanceToPipe.Name = "lblDistanceToPipe";
-            this.lblDistanceToPipe.Size = new System.Drawing.Size(0, 17);
-            this.lblDistanceToPipe.TabIndex = 4;
+            this.lblScore.AutoSize = true;
+            this.lblScore.Location = new System.Drawing.Point(337, 754);
+            this.lblScore.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblScore.Name = "lblScore";
+            this.lblScore.Size = new System.Drawing.Size(35, 13);
+            this.lblScore.TabIndex = 4;
+            this.lblScore.Text = "Score";
             // 
-            // lblDistanceToUpperPipe
+            // lblEpoch
             // 
-            this.lblDistanceToUpperPipe.AutoSize = true;
-            this.lblDistanceToUpperPipe.Location = new System.Drawing.Point(289, 927);
-            this.lblDistanceToUpperPipe.Name = "lblDistanceToUpperPipe";
-            this.lblDistanceToUpperPipe.Size = new System.Drawing.Size(0, 17);
-            this.lblDistanceToUpperPipe.TabIndex = 5;
+            this.lblEpoch.AutoSize = true;
+            this.lblEpoch.Location = new System.Drawing.Point(217, 753);
+            this.lblEpoch.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblEpoch.Name = "lblEpoch";
+            this.lblEpoch.Size = new System.Drawing.Size(59, 13);
+            this.lblEpoch.TabIndex = 5;
+            this.lblEpoch.Text = "Generation";
             // 
             // lblDistanceToBootomPipe
             // 
-            this.lblDistanceToBootomPipe.AutoSize = true;
-            this.lblDistanceToBootomPipe.Location = new System.Drawing.Point(580, 927);
+            this.lblDistanceToBootomPipe.Location = new System.Drawing.Point(0, 0);
             this.lblDistanceToBootomPipe.Name = "lblDistanceToBootomPipe";
-            this.lblDistanceToBootomPipe.Size = new System.Drawing.Size(0, 17);
-            this.lblDistanceToBootomPipe.TabIndex = 6;
+            this.lblDistanceToBootomPipe.Size = new System.Drawing.Size(100, 23);
+            this.lblDistanceToBootomPipe.TabIndex = 11;
             // 
             // btnEnableAI
             // 
-            this.btnEnableAI.Location = new System.Drawing.Point(1596, 927);
+            this.btnEnableAI.Location = new System.Drawing.Point(1197, 753);
+            this.btnEnableAI.Margin = new System.Windows.Forms.Padding(2);
             this.btnEnableAI.Name = "btnEnableAI";
-            this.btnEnableAI.Size = new System.Drawing.Size(219, 23);
+            this.btnEnableAI.Size = new System.Drawing.Size(164, 19);
             this.btnEnableAI.TabIndex = 7;
             this.btnEnableAI.TabStop = false;
             this.btnEnableAI.Text = "Enable AI";
@@ -93,9 +99,10 @@
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(1286, 924);
+            this.btnPause.Location = new System.Drawing.Point(964, 751);
+            this.btnPause.Margin = new System.Windows.Forms.Padding(2);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(84, 24);
+            this.btnPause.Size = new System.Drawing.Size(63, 20);
             this.btnPause.TabIndex = 8;
             this.btnPause.TabStop = false;
             this.btnPause.Text = "Pause";
@@ -104,30 +111,44 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(1387, 924);
+            this.btnPlay.Location = new System.Drawing.Point(1040, 751);
+            this.btnPlay.Margin = new System.Windows.Forms.Padding(2);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(75, 26);
+            this.btnPlay.Size = new System.Drawing.Size(56, 21);
             this.btnPlay.TabIndex = 9;
             this.btnPlay.TabStop = false;
             this.btnPlay.Text = "Play";
             this.btnPlay.UseVisualStyleBackColor = true;
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
+            // btnDetails
+            // 
+            this.btnDetails.Location = new System.Drawing.Point(3, 748);
+            this.btnDetails.Name = "btnDetails";
+            this.btnDetails.Size = new System.Drawing.Size(75, 23);
+            this.btnDetails.TabIndex = 10;
+            this.btnDetails.TabStop = false;
+            this.btnDetails.Text = "Details";
+            this.btnDetails.UseVisualStyleBackColor = true;
+            this.btnDetails.Click += new System.EventHandler(this.btnDetails_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.ClientSize = new System.Drawing.Size(1827, 953);
+            this.ClientSize = new System.Drawing.Size(1370, 774);
+            this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnEnableAI);
             this.Controls.Add(this.lblDistanceToBootomPipe);
-            this.Controls.Add(this.lblDistanceToUpperPipe);
-            this.Controls.Add(this.lblDistanceToPipe);
+            this.Controls.Add(this.lblEpoch);
+            this.Controls.Add(this.lblScore);
             this.Controls.Add(this.ground);
-            this.MaximumSize = new System.Drawing.Size(1845, 1000);
-            this.MinimumSize = new System.Drawing.Size(1845, 1000);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximumSize = new System.Drawing.Size(1388, 820);
+            this.MinimumSize = new System.Drawing.Size(1374, 809);
             this.Name = "Form1";
             this.Text = "FlappyBird Neural Network";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameKeyDown);
@@ -141,12 +162,13 @@
         #endregion
         private System.Windows.Forms.PictureBox ground;
         private System.Windows.Forms.Timer gameTimer;
-        private System.Windows.Forms.Label lblDistanceToPipe;
-        private System.Windows.Forms.Label lblDistanceToUpperPipe;
+        private System.Windows.Forms.Label lblScore;
+        private System.Windows.Forms.Label lblEpoch;
         private System.Windows.Forms.Label lblDistanceToBootomPipe;
         private System.Windows.Forms.Button btnEnableAI;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnPlay;
+        private System.Windows.Forms.Button btnDetails;
     }
 }
 
