@@ -102,8 +102,12 @@ namespace FlappyBird_NeuralNetwork
         private void btnDetails_Click(object sender, EventArgs e)
         {
             this.ActiveControl = null;
-            detailsForm = new NeuralDetailsForm(gEngine.fittestBrain);//gEngine.detailsList);
-            detailsForm.Show();
+
+            if (AI_enabled)
+            {
+                detailsForm = new NeuralDetailsForm(gEngine.fittestBrain != null ? gEngine.fittestBrain : gEngine.brains[0]);//gEngine.detailsList);
+                detailsForm.Show();
+            }
         }
     }
 }

@@ -25,8 +25,8 @@ namespace FlappyBird_NeuralNetwork
 
     public class GameEngine
     {        
-        public int pipeSpeed = 5;
-        public int distanceBetweenPipes = 300;
+        public int pipeSpeed = 8;
+        public int distanceBetweenPipes = 400;
         public int gravity = 8;
         public int jump = 5;
 
@@ -36,8 +36,8 @@ namespace FlappyBird_NeuralNetwork
 
         public int birdPopulation = 1;
 
-        public int minimumPipeLength = 120;
-        public int pipeGap = 100;
+        public int minimumPipeLength = 100;
+        public int pipeGap = 80;
 
         Form form;        
         System.Windows.Forms.Timer gameTimer;
@@ -47,7 +47,7 @@ namespace FlappyBird_NeuralNetwork
 
         public List<PictureBox> flapyBirds;
 
-        private List<NeuralNetwork> brains;
+        public List<NeuralNetwork> brains;
 
         public NeuralNetwork fittestBrain;
 
