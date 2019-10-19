@@ -53,9 +53,14 @@ namespace FlappyBird_NeuralNetwork
 
     public class NeuralNetwork
     {
+        double CROSSOVER_RATE = 0.8;
+        double MUTATION_RATE = 0.1;
+
         List<List<Neuron>> neuralLayers;
 
-        public NeuralNetwork(int inputLayerSize, int outputLayerSize, int hiddenLayersNumber)
+        double fitness=0;        
+
+        public NeuralNetwork(int inputLayerSize, int outputLayerSize, int hiddenLayersNumber, Random random)
         {
             neuralLayers = new List<List<Neuron>>();
 
@@ -87,8 +92,7 @@ namespace FlappyBird_NeuralNetwork
             }
             neuralLayers.Add(outputLayer);
 
-            //create all the synapses between neurons with random weights(genes)
-            Random random = new Random();
+            //create all the synapses between neurons with random weights(genes)            
             for (int i = 1; i < neuralLayers.Count; i++)//for each layer
             {
                 for (int j = 0; j < neuralLayers[i].Count; j++)//for each neuron in layer
@@ -100,10 +104,85 @@ namespace FlappyBird_NeuralNetwork
                     {                        
                         Neuron previousLayerNeuron = neuralLayers[i - 1][k];
                         //create synapse with each neuron in previous layer
-                        currentLayerNeuron.synapses.Add(new Synapse { originNeuron = previousLayerNeuron, weight = random.NextDouble() });                        
+                        currentLayerNeuron.synapses.Add(new Synapse { originNeuron = previousLayerNeuron, weight = random.NextDouble() * 2 - 1 });                      
                     }
                 }
             }
+        }
+
+        public void CalculateFitness(int numberOfPipesPassed, int distanceToCenterPipeGap, int distanceToPipePair, int windowHeight, int windowWidth)
+        {
+            double bonusCloseToCenterGap = 1 - (Math.Abs(distanceToCenterPipeGap) * 100 / windowHeight) * 0.01;
+            double bonusCloseToPipePair = 1 - (Math.Abs(distanceToPipePair) * 100 / windowWidth) * 0.01;
+            if (numberOfPipesPassed == 0)
+            {
+                //smallest percentage of distance to center pipe from total window height is better
+                fitness = bonusCloseToCenterGap + bonusCloseToPipePair;
+            }
+            else
+            {
+                fitness = numberOfPipesPassed + bonusCloseToCenterGap + bonusCloseToPipePair;
+            }
+        }
+
+        public void Crossover(NeuralNetwork crossover_neuralNet, Random random)
+        {
+            //check if crossover rate does not exceed limit
+            if (random.NextDouble() > CROSSOVER_RATE)
+                return;
+
+            //check if neural networks are identical in structure (layers and number of neurons per layer)
+            if (this.neuralLayers.Count != crossover_neuralNet.neuralLayers.Count
+                || this.neuralLayers[0].Count != crossover_neuralNet.neuralLayers[0].Count
+                || this.neuralLayers[1].Count != crossover_neuralNet.neuralLayers[1].Count
+                || this.neuralLayers[this.neuralLayers.Count - 1].Count != crossover_neuralNet.neuralLayers[this.neuralLayers.Count - 1].Count)
+                return;
+
+            for (int i = 1; i < this.neuralLayers.Count; i++)
+            {
+                for (int j = 0; j < this.neuralLayers[i].Count; j++)
+                {
+                    for (int k = 0; k < this.neuralLayers[i][j].synapses.Count; k++)
+                    {
+                        this.neuralLayers[i][j].synapses[k].weight = (this.neuralLayers[i][j].synapses[k].weight + crossover_neuralNet.neuralLayers[i][j].synapses[k].weight) / 2.0;
+                    }                    
+                }
+            }
+        }
+
+        public void Mutate(Random random)
+        {
+            for (int i = 1; i < this.neuralLayers.Count; i++)
+            {
+                for (int j = 0; j < this.neuralLayers[i].Count; j++)
+                {
+                    for (int k = 0; k < this.neuralLayers[i][j].synapses.Count; k++)
+                    {
+                        if (random.NextDouble() < MUTATION_RATE)
+                            this.neuralLayers[i][j].synapses[k].weight = random.NextDouble() * 2 - 1;
+                    }
+                }
+            }
+        }
+
+        public NeuralNetwork Duplicate()
+        {
+            NeuralNetwork duplicateNeuralNetwork = new NeuralNetwork(this.neuralLayers[0].Count,
+                                                                     this.neuralLayers[1].Count,
+                                                                     this.neuralLayers[this.neuralLayers.Count - 1].Count, new Random());
+
+            for (int i = 1; i < duplicateNeuralNetwork.neuralLayers.Count; i++)
+            {
+                for (int j = 0; j < duplicateNeuralNetwork.neuralLayers[i].Count; j++)
+                {
+                    for (int k = 0; k < duplicateNeuralNetwork.neuralLayers[i][j].synapses.Count; k++)
+                    {
+                        duplicateNeuralNetwork.neuralLayers[i][j].synapses[k].weight = this.neuralLayers[i][j].synapses[k].weight;
+                    }
+                }
+            }
+
+            return duplicateNeuralNetwork;
         }
 
         //return output neuron values

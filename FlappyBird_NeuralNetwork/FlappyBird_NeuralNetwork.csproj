@@ -53,11 +53,20 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GameEngine.cs" />
+    <Compile Include="NeuralDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NeuralDetailsForm.Designer.cs">
+      <DependentUpon>NeuralDetailsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NeuralNetwork.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NeuralDetailsForm.resx">
+      <DependentUpon>NeuralDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

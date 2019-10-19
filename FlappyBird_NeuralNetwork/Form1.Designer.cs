@@ -34,6 +34,9 @@
             this.lblDistanceToPipe = new System.Windows.Forms.Label();
             this.lblDistanceToUpperPipe = new System.Windows.Forms.Label();
             this.lblDistanceToBootomPipe = new System.Windows.Forms.Label();
+            this.btnEnableAI = new System.Windows.Forms.Button();
+            this.btnPause = new System.Windows.Forms.Button();
+            this.btnPlay = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ground)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,27 +61,57 @@
             this.lblDistanceToPipe.AutoSize = true;
             this.lblDistanceToPipe.Location = new System.Drawing.Point(12, 927);
             this.lblDistanceToPipe.Name = "lblDistanceToPipe";
-            this.lblDistanceToPipe.Size = new System.Drawing.Size(46, 17);
+            this.lblDistanceToPipe.Size = new System.Drawing.Size(0, 17);
             this.lblDistanceToPipe.TabIndex = 4;
-            this.lblDistanceToPipe.Text = "label1";
             // 
             // lblDistanceToUpperPipe
             // 
             this.lblDistanceToUpperPipe.AutoSize = true;
             this.lblDistanceToUpperPipe.Location = new System.Drawing.Point(289, 927);
             this.lblDistanceToUpperPipe.Name = "lblDistanceToUpperPipe";
-            this.lblDistanceToUpperPipe.Size = new System.Drawing.Size(46, 17);
+            this.lblDistanceToUpperPipe.Size = new System.Drawing.Size(0, 17);
             this.lblDistanceToUpperPipe.TabIndex = 5;
-            this.lblDistanceToUpperPipe.Text = "label2";
             // 
             // lblDistanceToBootomPipe
             // 
             this.lblDistanceToBootomPipe.AutoSize = true;
             this.lblDistanceToBootomPipe.Location = new System.Drawing.Point(580, 927);
             this.lblDistanceToBootomPipe.Name = "lblDistanceToBootomPipe";
-            this.lblDistanceToBootomPipe.Size = new System.Drawing.Size(46, 17);
+            this.lblDistanceToBootomPipe.Size = new System.Drawing.Size(0, 17);
             this.lblDistanceToBootomPipe.TabIndex = 6;
-            this.lblDistanceToBootomPipe.Text = "label3";
+            // 
+            // btnEnableAI
+            // 
+            this.btnEnableAI.Location = new System.Drawing.Point(1596, 927);
+            this.btnEnableAI.Name = "btnEnableAI";
+            this.btnEnableAI.Size = new System.Drawing.Size(219, 23);
+            this.btnEnableAI.TabIndex = 7;
+            this.btnEnableAI.TabStop = false;
+            this.btnEnableAI.Text = "Enable AI";
+            this.btnEnableAI.UseVisualStyleBackColor = true;
+            this.btnEnableAI.Click += new System.EventHandler(this.btnEnableAI_Click);
+            // 
+            // btnPause
+            // 
+            this.btnPause.Location = new System.Drawing.Point(1286, 924);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(84, 24);
+            this.btnPause.TabIndex = 8;
+            this.btnPause.TabStop = false;
+            this.btnPause.Text = "Pause";
+            this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(1387, 924);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(75, 26);
+            this.btnPlay.TabIndex = 9;
+            this.btnPlay.TabStop = false;
+            this.btnPlay.Text = "Play";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // Form1
             // 
@@ -86,6 +119,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PaleTurquoise;
             this.ClientSize = new System.Drawing.Size(1827, 953);
+            this.Controls.Add(this.btnPlay);
+            this.Controls.Add(this.btnPause);
+            this.Controls.Add(this.btnEnableAI);
             this.Controls.Add(this.lblDistanceToBootomPipe);
             this.Controls.Add(this.lblDistanceToUpperPipe);
             this.Controls.Add(this.lblDistanceToPipe);
@@ -108,6 +144,9 @@
         private System.Windows.Forms.Label lblDistanceToPipe;
         private System.Windows.Forms.Label lblDistanceToUpperPipe;
         private System.Windows.Forms.Label lblDistanceToBootomPipe;
+        private System.Windows.Forms.Button btnEnableAI;
+        private System.Windows.Forms.Button btnPause;
+        private System.Windows.Forms.Button btnPlay;
     }
 }
 

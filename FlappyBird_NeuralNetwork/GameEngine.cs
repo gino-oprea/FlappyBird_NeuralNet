@@ -15,13 +15,22 @@ namespace FlappyBird_NeuralNetwork
         public int distanceToNextBottomPipe;
     }
 
-    public class GameEngine
+    public class NeuralDetails
     {
-        public bool jumping = false;
+        public double distanceToNextPipePair;
+        public double distanceToNextUpperPipe;
+        public double distanceToNextBottomPipe;
+        public double output;
+    }
+
+    public class GameEngine
+    {        
         public int pipeSpeed = 5;
         public int distanceBetweenPipes = 500;
         public int gravity = 8;
         public int jump = 5;
+
+
         public int birdPopulation = 1;
 
         public int minimumPipeLength = 150;
@@ -34,21 +43,76 @@ namespace FlappyBird_NeuralNetwork
 
         public List<PictureBox> flapyBirds;
 
+        private List<NeuralNetwork> brains;
+
+        public List<NeuralDetails> detailsList = new List<NeuralDetails>();
+
+        Random random = new Random();
+
         public GameEngine(Form form, System.Windows.Forms.Timer gameTimer)
         {
             this.form = form;
             this.gameTimer = gameTimer;
 
-            flapyBirds = GenerateBirds();
+            flapyBirds = GenerateBirds();            
+        }
 
-            //NeuralNetwork skyNet = new NeuralNetwork(3, 1, 1);
-            //Random rand = new Random();
-            //List<double> output;
-            //while (true)
-            //{
-            //    output = skyNet.ComputeOutput(new List<double> { (double)rand.Next(-500, 500), (double)rand.Next(-500, 500), (double)rand.Next(-500, 500) });
-            //}
-            
+        public void EnableAI()
+        {
+            birdPopulation = 30;
+
+            brains = new List<NeuralNetwork>();
+            for (int i = 0; i < birdPopulation; i++)
+            {
+                NeuralNetwork brain = new NeuralNetwork(3, 1, 1, random);
+                brains.Add(brain);
+            }            
+        }
+        public void DisableAI()
+        {
+            brains = null;
+            birdPopulation = 1;
+        }
+
+        public List<double> UpdateBirdBrainInput()
+        {
+            List<double> outputActions = new List<double>();
+            List<BirdSensors> birdSensors = getBirdSensors();
+            for (int i = 0; i < brains.Count; i++)
+            {
+                NeuralNetwork brain = brains[i];
+
+                //squash the input values to a number between 0 and 1
+                double squashedDist1 = (birdSensors[i].distanceToNextPipePair * 100 / form.Width) * 0.01;
+                double squashedDist2 = (birdSensors[i].distanceToNextUpperPipe * 100 / form.Height) * 0.01;
+                double squashedDist3 = (birdSensors[i].distanceToNextBottomPipe * 100 / form.Height) * 0.01;
+
+                List<double> neuralInputs = new List<double> { squashedDist1, squashedDist2, squashedDist3 };
+                List<double> output = brain.ComputeOutput(neuralInputs);
+
+                outputActions.Add(output[0]);//there is only one output neuron
+
+
+                ////for showing details in next Form only
+                if (detailsList.Count - 1 < i)
+                    detailsList.Add(new NeuralDetails
+                    {
+                        distanceToNextPipePair = squashedDist1,
+                        distanceToNextUpperPipe = squashedDist2,
+                        distanceToNextBottomPipe = squashedDist3,
+                        output = output[0]
+                    });
+                else
+                {
+                    detailsList[i].distanceToNextPipePair = squashedDist1;
+                    detailsList[i].distanceToNextUpperPipe = squashedDist2;
+                    detailsList[i].distanceToNextBottomPipe = squashedDist3;
+                    detailsList[i].output = output[0];
+                }
+                ///////
+            }
+
+            return outputActions;
         }
 
         //calculate for each bird
@@ -84,7 +148,7 @@ namespace FlappyBird_NeuralNetwork
                 PictureBox flappyBird = new PictureBox();
                 flappyBird.Width = 39;
                 flappyBird.Height = 34;
-                flappyBird.Location = new System.Drawing.Point(112, initialBirdPosition(-i));
+                flappyBird.Location = new System.Drawing.Point(112, initialBirdPosition(0));
                 flappyBird.Image = Properties.Resources.bird;
                 flappyBird.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 
@@ -141,27 +205,11 @@ namespace FlappyBird_NeuralNetwork
 
             return pipePair;
         }
-
-        public void resetGame()
-        {
-            for (int i = 0; i < pipes.Count; i++)
-            {
-                form.Controls.Remove(pipes[i][0]);//top
-                form.Controls.Remove(pipes[i][1]);//bottom                
-            }
-            pipes = null;
-
-            bool jumping = false;
-
-            for (int i = 0; i < birdPopulation; i++)
-            {
-                flapyBirds[i].Top = initialBirdPosition(-i);
-            }
-        }
+             
 
         public void randomizePipeSize(PictureBox pipeTop, PictureBox pipeBottom)
         {
-            Random random = new Random();               
+                           
             pipeTop.Height = random.Next(minimumPipeLength, form.Height - minimumPipeLength - pipeGap);
 
             pipeBottom.Top = pipeTop.Height + pipeGap;
@@ -171,7 +219,31 @@ namespace FlappyBird_NeuralNetwork
         {
             this.gameTimer.Stop();
             Thread.Sleep(1000);
-            this.resetGame();            
+            //remove pipes
+            for (int i = 0; i < pipes.Count; i++)
+            {
+                form.Controls.Remove(pipes[i][0]);//top
+                form.Controls.Remove(pipes[i][1]);//bottom                
+            }
+            pipes = null;
+
+            //remove birds
+            for (int i = 0; i < birdPopulation; i++)
+            {
+                if (flapyBirds.Count > 0)
+                    form.Controls.Remove(flapyBirds[i]);
+            }
+            flapyBirds = null;            
+        }
+        public void startGame()
+        {
+            //regenerate birds
+            flapyBirds = GenerateBirds();
+            for (int i = 0; i < birdPopulation; i++)
+            {
+                flapyBirds[i].Top = initialBirdPosition(0);
+            }
+
             this.gameTimer.Start();
         }
     }
