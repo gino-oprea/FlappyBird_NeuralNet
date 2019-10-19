@@ -58,7 +58,7 @@ namespace FlappyBird_NeuralNetwork
 
         List<List<Neuron>> neuralLayers;
 
-        double fitness=0;        
+        public double fitness=0;        
 
         public NeuralNetwork(int inputLayerSize, int outputLayerSize, int hiddenLayersNumber, Random random)
         {
@@ -168,8 +168,9 @@ namespace FlappyBird_NeuralNetwork
         public NeuralNetwork Duplicate()
         {
             NeuralNetwork duplicateNeuralNetwork = new NeuralNetwork(this.neuralLayers[0].Count,
-                                                                     this.neuralLayers[1].Count,
-                                                                     this.neuralLayers[this.neuralLayers.Count - 1].Count, new Random());
+                                                                     this.neuralLayers[this.neuralLayers.Count - 1].Count,
+                                                                     this.neuralLayers.Count-2,
+                                                                      new Random());
 
             for (int i = 1; i < duplicateNeuralNetwork.neuralLayers.Count; i++)
             {
