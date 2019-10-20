@@ -54,7 +54,7 @@ namespace FlappyBird_NeuralNetwork
     public class NeuralNetwork
     {
         double CROSSOVER_RATE = 0.8;
-        double MUTATION_RATE = 0.1;
+        double MUTATION_RATE = 0.05;
 
         public List<List<Neuron>> neuralLayers;
 
@@ -76,7 +76,7 @@ namespace FlappyBird_NeuralNetwork
             for (int i = 0; i < hiddenLayersNumber; i++)
             {
                 List<Neuron> hiddenLayer = new List<Neuron>();
-                int size_of_hidden_layers = 4;//(inputLayerSize + outputLayerSize) / 2;
+                decimal size_of_hidden_layers = Math.Ceiling(((decimal)inputLayerSize + (decimal)outputLayerSize) / 2);            
                 for (int j = 0; j < size_of_hidden_layers; j++)
                 {
                     hiddenLayer.Add(new Neuron { layerIndex = i + 1, positionIndex = j });

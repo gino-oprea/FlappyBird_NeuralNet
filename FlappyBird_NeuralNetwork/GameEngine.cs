@@ -13,6 +13,7 @@ namespace FlappyBird_NeuralNetwork
         public int distanceToNextPipePair;
         public int distanceToNextUpperPipe;
         public int distanceToNextBottomPipe;
+        public int distanceToGapExit;
     }
 
     public class NeuralDetails
@@ -25,7 +26,7 @@ namespace FlappyBird_NeuralNetwork
 
     public class GameEngine
     {        
-        public int pipeSpeed = 8;
+        public int pipeSpeed = 5;
         public int distanceBetweenPipes = 400;
         public int gravity = 8;
         public int jump = 5;
@@ -37,7 +38,8 @@ namespace FlappyBird_NeuralNetwork
         public int birdPopulation = 1;
 
         public int minimumPipeLength = 100;
-        public int pipeGap = 80;
+        public int pipeGap = 70;
+        public int pipeWidth = 200;
 
         Form form;        
         System.Windows.Forms.Timer gameTimer;
@@ -74,7 +76,7 @@ namespace FlappyBird_NeuralNetwork
             brains = new List<NeuralNetwork>();
             for (int i = 0; i < birdPopulation; i++)
             {
-                NeuralNetwork brain = new NeuralNetwork(3, 1, 2, random);
+                NeuralNetwork brain = new NeuralNetwork(4, 1, 2, random);
                 brains.Add(brain);
             }
 
@@ -99,8 +101,9 @@ namespace FlappyBird_NeuralNetwork
                 double squashedDist1 = (birdSensors[i].distanceToNextPipePair * 100 / form.Width) * 0.01;
                 double squashedDist2 = (birdSensors[i].distanceToNextUpperPipe * 100 / form.Height) * 0.01;
                 double squashedDist3 = (birdSensors[i].distanceToNextBottomPipe * 100 / form.Height) * 0.01;
+                double squashedDist4 = (birdSensors[i].distanceToGapExit * 100 / form.Width) * 0.01;
 
-                List<double> neuralInputs = new List<double> { squashedDist1, squashedDist2, squashedDist3 };
+                List<double> neuralInputs = new List<double> { squashedDist1, squashedDist2, squashedDist3, squashedDist4 };
                 List<double> output = brain.ComputeOutput(neuralInputs);
 
                 outputActions.Add(output[0]);//there is only one output neuron
@@ -263,12 +266,13 @@ namespace FlappyBird_NeuralNetwork
             {
                 foreach (List<PictureBox> pipePair in pipes)
                 {
-                    if (bird.Left - (pipePair[0].Left + pipePair[0].Width/2)<0)//this is the next pipe pair
+                    if (bird.Left - (pipePair[0].Left + pipePair[0].Width)<0)//this is the next pipe pair
                     {
                         BirdSensors birdSensor = new BirdSensors();
-                        birdSensor.distanceToNextPipePair = (pipePair[0].Left + pipePair[0].Width / 2) - (bird.Left + bird.Width / 2);
+                        birdSensor.distanceToNextPipePair = (pipePair[0].Left) - (bird.Left + bird.Width / 2);
                         birdSensor.distanceToNextUpperPipe = bird.Top - pipePair[0].Height;
                         birdSensor.distanceToNextBottomPipe = pipePair[1].Top - bird.Top;
+                        birdSensor.distanceToGapExit = birdSensor.distanceToNextPipePair + pipePair[0].Width;
 
                         birdSensors.Add(birdSensor);
                         break;
@@ -322,13 +326,13 @@ namespace FlappyBird_NeuralNetwork
         public List<PictureBox> generatePipePair()
         {
             PictureBox pipeTop = new PictureBox();
-            pipeTop.Width = 100;
+            pipeTop.Width = pipeWidth;
             pipeTop.Location = new System.Drawing.Point(form.Width - pipeTop.Width, 0);
             pipeTop.Image = Properties.Resources.pipedown;
             pipeTop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 
             PictureBox pipeBottom = new PictureBox();
-            pipeBottom.Width = 100;
+            pipeBottom.Width = pipeWidth;
             pipeBottom.Location = new System.Drawing.Point(form.Width - pipeTop.Width, form.Height);
             pipeBottom.Image = Properties.Resources.pipe;
             pipeBottom.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
