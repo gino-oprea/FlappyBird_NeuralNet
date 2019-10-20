@@ -27,7 +27,7 @@ namespace FlappyBird_NeuralNetwork
     public class GameEngine
     {        
         public int pipeSpeed = 5;
-        public int distanceBetweenPipes = 400;
+        public int distanceBetweenPipes = 480;
         public int gravity = 8;
         public int jump = 5;
 
@@ -37,9 +37,9 @@ namespace FlappyBird_NeuralNetwork
 
         public int birdPopulation = 1;
 
-        public int minimumPipeLength = 100;
-        public int pipeGap = 70;
-        public int pipeWidth = 200;
+        public int minimumPipeLength = 150;
+        public int pipeGap = 31;
+        public int pipeWidth = 180;
 
         Form form;        
         System.Windows.Forms.Timer gameTimer;
@@ -76,7 +76,7 @@ namespace FlappyBird_NeuralNetwork
             brains = new List<NeuralNetwork>();
             for (int i = 0; i < birdPopulation; i++)
             {
-                NeuralNetwork brain = new NeuralNetwork(4, 1, 2, random);
+                NeuralNetwork brain = new NeuralNetwork(4, 1, 3, random);
                 brains.Add(brain);
             }
 
@@ -214,7 +214,7 @@ namespace FlappyBird_NeuralNetwork
                         {
                             List<BirdSensors> sensors = getBirdSensors();
                             int distanceToCenter = Math.Abs(sensors[j].distanceToNextUpperPipe - sensors[j].distanceToNextBottomPipe) / 2;
-                            brains[j].CalculateFitness(gameScore[j], distanceToCenter, sensors[j].distanceToNextPipePair, form.Height, form.Width);
+                            brains[j].CalculateFitness(gameScore[j], distanceToCenter, sensors[j].distanceToGapExit, form.Height, form.Width);
                         }
                         ////
                         flappyBird.Left = -600;//bird is dead
@@ -233,7 +233,7 @@ namespace FlappyBird_NeuralNetwork
                             if (detailsForm != null)
                                 detailsForm.UpdateDetails(fittestBrain);
                             //create new brains                                 
-                            brains = NeuralNetworkBreeding.BreedByMutationOnly(brains, random);
+                            brains = NeuralNetworkBreeding.Breed(brains, random);
                             birdPopulation = brains.Count;
                             ////                            
                         }
