@@ -37,7 +37,7 @@ namespace FlappyBird_NeuralNetwork
 
         public int birdPopulation = 1;
 
-        public int minimumPipeLength = 150;
+        public int minimumPipeLength = 120;
         public int pipeGap = 31;
         public int pipeWidth = 180;
 
