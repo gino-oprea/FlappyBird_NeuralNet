@@ -39,7 +39,11 @@ namespace FlappyBird_NeuralNetwork
 
         public int minimumPipeLength = 120;
         public int pipeGap = 31;
-        public int pipeWidth = 180;
+        public int pipeWidth = 190;
+
+        public int neuralInputSize = 4;
+        public int neuralOutputSize = 1;
+        public int neuralHiddenLayersNUmber = 3;
 
         Form form;        
         System.Windows.Forms.Timer gameTimer;
@@ -50,6 +54,8 @@ namespace FlappyBird_NeuralNetwork
         public List<PictureBox> flapyBirds;
 
         public List<NeuralNetwork> brains;
+
+        public NeuralNetwork bestBrainEver;
 
         public NeuralNetwork fittestBrain;
 
@@ -66,7 +72,10 @@ namespace FlappyBird_NeuralNetwork
             this.ground = ground;
 
             
-            flapyBirds = GenerateBirds();            
+            flapyBirds = GenerateBirds();   
+            
+            bestBrainEver=new NeuralNetwork(neuralInputSize, neuralOutputSize, neuralHiddenLayersNUmber, random);
+            bestBrainEver.fitness = 0;//must be initialized
         }
 
         public void EnableAI()
@@ -76,7 +85,7 @@ namespace FlappyBird_NeuralNetwork
             brains = new List<NeuralNetwork>();
             for (int i = 0; i < birdPopulation; i++)
             {
-                NeuralNetwork brain = new NeuralNetwork(4, 1, 3, random);
+                NeuralNetwork brain = new NeuralNetwork(neuralInputSize, neuralOutputSize, neuralHiddenLayersNUmber, random);
                 brains.Add(brain);
             }
 
@@ -230,10 +239,16 @@ namespace FlappyBird_NeuralNetwork
                             //breeeding time
                             epochNo++;
                             fittestBrain = brains.OrderByDescending(b => b.fitness).ToList()[0];
+                            if (fittestBrain.fitness > bestBrainEver.fitness)
+                            {
+                                bestBrainEver = fittestBrain.Duplicate();
+                                bestBrainEver.fitness = fittestBrain.fitness;
+                            }
+
                             if (detailsForm != null)
                                 detailsForm.UpdateDetails(fittestBrain);
                             //create new brains                                 
-                            brains = NeuralNetworkBreeding.Breed(brains, random);
+                            brains = NeuralNetworkBreeding.BreedByMutationOnly(brains, bestBrainEver, random);
                             birdPopulation = brains.Count;
                             ////                            
                         }
