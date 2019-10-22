@@ -39,7 +39,7 @@ namespace FlappyBird_NeuralNetwork
 
         public int minimumPipeLength = 120;
         public int pipeGap = 31;
-        public int pipeWidth = 190;
+        public int pipeWidth = 220;
 
         public int neuralInputSize = 4;
         public int neuralOutputSize = 1;
@@ -200,7 +200,7 @@ namespace FlappyBird_NeuralNetwork
             for (int i = 0; i < pipes.Count; i++)
             {
                 List<PictureBox> pipePair = pipes[i];
-                if (pipePair[0].Left < -100)
+                if (pipePair[0].Left < -pipeWidth)
                 {
                     form.Controls.Remove(pipePair[0]);//top
                     form.Controls.Remove(pipePair[1]);//bottom
