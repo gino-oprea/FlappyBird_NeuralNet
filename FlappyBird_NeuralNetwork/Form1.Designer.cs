@@ -43,10 +43,10 @@
             // ground
             // 
             this.ground.Image = global::FlappyBird_NeuralNetwork.Properties.Resources.ground;
-            this.ground.Location = new System.Drawing.Point(4, 844);
-            this.ground.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.ground.Location = new System.Drawing.Point(3, 563);
+            this.ground.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ground.Name = "ground";
-            this.ground.Size = new System.Drawing.Size(2034, 81);
+            this.ground.Size = new System.Drawing.Size(1479, 54);
             this.ground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ground.TabIndex = 3;
             this.ground.TabStop = false;
@@ -60,29 +60,27 @@
             // lblScore
             // 
             this.lblScore.AutoSize = true;
-            this.lblScore.Location = new System.Drawing.Point(612, 861);
-            this.lblScore.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblScore.Location = new System.Drawing.Point(445, 574);
             this.lblScore.Name = "lblScore";
-            this.lblScore.Size = new System.Drawing.Size(64, 25);
+            this.lblScore.Size = new System.Drawing.Size(45, 17);
             this.lblScore.TabIndex = 4;
             this.lblScore.Text = "Score";
             // 
             // lblEpoch
             // 
             this.lblEpoch.AutoSize = true;
-            this.lblEpoch.Location = new System.Drawing.Point(371, 864);
-            this.lblEpoch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEpoch.Location = new System.Drawing.Point(270, 576);
             this.lblEpoch.Name = "lblEpoch";
-            this.lblEpoch.Size = new System.Drawing.Size(108, 25);
+            this.lblEpoch.Size = new System.Drawing.Size(79, 17);
             this.lblEpoch.TabIndex = 5;
             this.lblEpoch.Text = "Generation";
             // 
             // btnEnableAI
             // 
-            this.btnEnableAI.Location = new System.Drawing.Point(1533, 861);
-            this.btnEnableAI.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnEnableAI.Location = new System.Drawing.Point(1115, 574);
+            this.btnEnableAI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEnableAI.Name = "btnEnableAI";
-            this.btnEnableAI.Size = new System.Drawing.Size(301, 40);
+            this.btnEnableAI.Size = new System.Drawing.Size(219, 27);
             this.btnEnableAI.TabIndex = 7;
             this.btnEnableAI.TabStop = false;
             this.btnEnableAI.Text = "Enable AI";
@@ -91,10 +89,10 @@
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(1103, 861);
-            this.btnPause.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnPause.Location = new System.Drawing.Point(802, 574);
+            this.btnPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(116, 38);
+            this.btnPause.Size = new System.Drawing.Size(84, 25);
             this.btnPause.TabIndex = 8;
             this.btnPause.TabStop = false;
             this.btnPause.Text = "Pause";
@@ -103,10 +101,10 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(1261, 861);
-            this.btnPlay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnPlay.Location = new System.Drawing.Point(917, 574);
+            this.btnPlay.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(103, 39);
+            this.btnPlay.Size = new System.Drawing.Size(75, 26);
             this.btnPlay.TabIndex = 9;
             this.btnPlay.TabStop = false;
             this.btnPlay.Text = "Play";
@@ -115,10 +113,10 @@
             // 
             // btnDetails
             // 
-            this.btnDetails.Location = new System.Drawing.Point(4, 855);
-            this.btnDetails.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btnDetails.Location = new System.Drawing.Point(3, 570);
+            this.btnDetails.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDetails.Name = "btnDetails";
-            this.btnDetails.Size = new System.Drawing.Size(138, 42);
+            this.btnDetails.Size = new System.Drawing.Size(100, 28);
             this.btnDetails.TabIndex = 10;
             this.btnDetails.TabStop = false;
             this.btnDetails.Text = "Details";
@@ -127,10 +125,10 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.ClientSize = new System.Drawing.Size(2030, 885);
+            this.ClientSize = new System.Drawing.Size(1481, 601);
             this.Controls.Add(this.btnDetails);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnPause);
@@ -138,9 +136,9 @@
             this.Controls.Add(this.lblEpoch);
             this.Controls.Add(this.lblScore);
             this.Controls.Add(this.ground);
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximumSize = new System.Drawing.Size(2054, 949);
-            this.MinimumSize = new System.Drawing.Size(2054, 949);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximumSize = new System.Drawing.Size(1499, 648);
+            this.MinimumSize = new System.Drawing.Size(1499, 648);
             this.Name = "Form1";
             this.Text = "FlappyBird Neural Network";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameKeyDown);

@@ -108,6 +108,6 @@ namespace FlappyBird_NeuralNetwork
                 detailsForm = new NeuralDetailsForm(gEngine.fittestBrain != null ? gEngine.fittestBrain : gEngine.brains[0]);//gEngine.detailsList);
                 detailsForm.Show();
             }
-        }
+        }       
     }
 }

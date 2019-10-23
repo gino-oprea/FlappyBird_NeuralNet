@@ -14,7 +14,7 @@ namespace FlappyBird_NeuralNetwork
     public partial class NeuralDetailsForm : Form
     {
         DataTable dt;
-        int ellipseDimension = 50;
+        int ellipseDimension = 70;
 
         double synapseThresholdMax = 0.7;
         double synapseThresholdMiddle = 0.5;
@@ -22,23 +22,61 @@ namespace FlappyBird_NeuralNetwork
         double synapseThresholdMin = -0.3;
 
         NeuralNetwork neuralNet;
+        List<Label> neuralLabelList;
 
         public NeuralDetailsForm(NeuralNetwork neuralNet)//List<NeuralDetails> detailsList)
         {
             this.neuralNet = neuralNet;
-            InitializeComponent();            
+            InitializeComponent();
+            neuralLabelList = new List<Label>();
         }
 
-        public void UpdateDetails(NeuralNetwork neuralNet)
+        public void UpdateDetails(NeuralNetwork neuralNet, bool isNeuralNetChange)
         {
             if (neuralNet != null)
             {
                 this.neuralNet = neuralNet;
-                pnlNeuralNet.Invalidate();
+
+                if (isNeuralNetChange)
+                {
+                    this.Invalidate();
+                }
+                else
+                {
+                    updateNeuronLabelsValues(neuralNet);                   
+                }
+
             }
         }
 
-        private void pnlNeuralNet_Paint(object sender, PaintEventArgs e)
+        private void setUpLabelOnPanel(string labelName, Rectangle rectangle)
+        {
+            if (neuralLabelList.Find(n => n.Name == labelName) == null)
+            {
+                Label lblNeuronValue = new Label();
+                lblNeuronValue.Name = labelName;
+                lblNeuronValue.Location = new Point(rectangle.X, rectangle.Y);
+                lblNeuronValue.Width = rectangle.Width;
+                lblNeuronValue.Font = new Font(this.Font, FontStyle.Bold);
+                lblNeuronValue.ForeColor = Color.White;
+                lblNeuronValue.BackColor = Color.Red;
+                this.Controls.Add(lblNeuronValue);
+                neuralLabelList.Add(lblNeuronValue);
+            }
+        }
+        private void updateNeuronLabelsValues(NeuralNetwork neuralNet)
+        {
+            for (int i = 0; i < neuralNet.neuralLayers.Count; i++)
+            {
+                for (int j = 0; j < neuralNet.neuralLayers[i].Count; j++)
+                {
+                    if (neuralLabelList.Find(n => n.Name == "lblNeuron_" + i + "_" + j) != null)
+                        neuralLabelList.Find(n => n.Name == "lblNeuron_" + i + "_" + j).Text = string.Format("{0:N4}", neuralNet.neuralLayers[i][j].value);
+                }
+            }
+        }
+
+        private void NeuralDetailsForm_Paint(object sender, PaintEventArgs e)
         {
             //NeuralNetwork neuralNet = new NeuralNetwork(3, 1, 2, new Random());
             if (neuralNet != null)
@@ -64,14 +102,14 @@ namespace FlappyBird_NeuralNetwork
                     int heightIncremental = this.Height / (neuronsPerLayer[i] + 1);
                     for (int j = 0; j < neuronsPerLayer[i]; j++)
                     {
-                        yPosition.Add((j + 1) * heightIncremental);
+                        yPosition.Add(((j + 1) * heightIncremental) - 50);
                     }
                     yPositionNeurons.Add(yPosition);
                 }
 
 
 
-                Graphics g = pnlNeuralNet.CreateGraphics();
+                Graphics g = this.CreateGraphics();
                 Pen p = new Pen(Color.Black);
 
                 SolidBrush sb = new SolidBrush(Color.Red);
@@ -82,6 +120,10 @@ namespace FlappyBird_NeuralNetwork
                     {
                         g.DrawEllipse(p, xPositionsNeurons[i], yPositionNeurons[i][j], ellipseDimension, ellipseDimension);
                         g.FillEllipse(sb, xPositionsNeurons[i], yPositionNeurons[i][j], ellipseDimension, ellipseDimension);
+                        var rect = new Rectangle(xPositionsNeurons[i] + ellipseDimension / 7, yPositionNeurons[i][j] + 15, 55, 30);
+
+                        //TextRenderer.DrawText(g, string.Format("{0:N2}", neuralNet.neuralLayers[i][j].value), new Font(this.Font, FontStyle.Bold), rect, Color.White, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                        setUpLabelOnPanel("lblNeuron_" + i + "_" + j, rect);
 
                         if (i > 0)//from second layer foreward draw synapses
                         {
