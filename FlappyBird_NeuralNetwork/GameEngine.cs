@@ -28,7 +28,7 @@ namespace FlappyBird_NeuralNetwork
     public class GameEngine
     {        
         public int pipeSpeed = 5;
-        public int distanceBetweenPipes = 300;//480;
+        public int distanceBetweenPipes = 100;//480;
         public int gravity = 8;
         public int jump = 5;
 
@@ -412,7 +412,7 @@ namespace FlappyBird_NeuralNetwork
 
             foreach (PictureBox pipe in pipePair)
             {
-                pipe.Left = form.Width - pipe.Width;
+                pipe.Left = form.Width + pipe.Width;
                 form.Controls.Add(pipe);
             }
 
