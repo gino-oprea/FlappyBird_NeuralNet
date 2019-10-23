@@ -14,20 +14,21 @@ namespace FlappyBird_NeuralNetwork
         public int distanceToNextUpperPipe;
         public int distanceToNextBottomPipe;
         public int distanceToGapExit;
+        public int distanceToMiddleGapFuturePipePair;
     }
 
-    public class NeuralDetails
-    {
-        public double distanceToNextPipePair;
-        public double distanceToNextUpperPipe;
-        public double distanceToNextBottomPipe;
-        public double output;
-    }
+    //public class NeuralDetails
+    //{
+    //    public double distanceToNextPipePair;
+    //    public double distanceToNextUpperPipe;
+    //    public double distanceToNextBottomPipe;
+    //    public double output;
+    //}
 
     public class GameEngine
     {        
         public int pipeSpeed = 5;
-        public int distanceBetweenPipes = 480;
+        public int distanceBetweenPipes = 300;//480;
         public int gravity = 8;
         public int jump = 5;
 
@@ -38,10 +39,10 @@ namespace FlappyBird_NeuralNetwork
         public int birdPopulation = 1;
 
         public int minimumPipeLength = 120;
-        public int pipeGap = 35;
-        public int pipeWidth = 200;
+        public int pipeGap = 80;//35;
+        public int pipeWidth = 120;//200;
 
-        public int neuralInputSize = 4;
+        public int neuralInputSize = 5;
         public int neuralOutputSize = 1;
         public int neuralHiddenLayersNUmber = 3;
 
@@ -61,7 +62,7 @@ namespace FlappyBird_NeuralNetwork
 
         public NeuralNetwork firsBrainStillAlive;
 
-        public List<NeuralDetails> detailsList = new List<NeuralDetails>();
+        //public List<NeuralDetails> detailsList = new List<NeuralDetails>();
 
         Random random = new Random();
 
@@ -115,29 +116,30 @@ namespace FlappyBird_NeuralNetwork
                 double squashedDist2 = (birdSensors[i].distanceToNextUpperPipe * 100 / form.Height) * 0.01;
                 double squashedDist3 = (birdSensors[i].distanceToNextBottomPipe * 100 / form.Height) * 0.01;
                 double squashedDist4 = (birdSensors[i].distanceToGapExit * 100 / form.Width) * 0.01;
+                double squashedDist5 = (birdSensors[i].distanceToMiddleGapFuturePipePair * 100 / form.Height) * 0.01;
 
-                List<double> neuralInputs = new List<double> { squashedDist1, squashedDist2, squashedDist3, squashedDist4 };
+                List<double> neuralInputs = new List<double> { squashedDist1, squashedDist2, squashedDist3, squashedDist4, squashedDist5 };
                 List<double> output = brain.ComputeOutput(neuralInputs);
 
                 outputActions.Add(output[0]);//there is only one output neuron
 
 
                 ////for showing details in next Form only
-                if (detailsList.Count - 1 < i)
-                    detailsList.Add(new NeuralDetails
-                    {
-                        distanceToNextPipePair = squashedDist1,
-                        distanceToNextUpperPipe = squashedDist2,
-                        distanceToNextBottomPipe = squashedDist3,
-                        output = output[0]
-                    });
-                else
-                {
-                    detailsList[i].distanceToNextPipePair = squashedDist1;
-                    detailsList[i].distanceToNextUpperPipe = squashedDist2;
-                    detailsList[i].distanceToNextBottomPipe = squashedDist3;
-                    detailsList[i].output = output[0];
-                }
+                //if (detailsList.Count - 1 < i)
+                //    detailsList.Add(new NeuralDetails
+                //    {
+                //        distanceToNextPipePair = squashedDist1,
+                //        distanceToNextUpperPipe = squashedDist2,
+                //        distanceToNextBottomPipe = squashedDist3,
+                //        output = output[0]
+                //    });
+                //else
+                //{
+                //    detailsList[i].distanceToNextPipePair = squashedDist1;
+                //    detailsList[i].distanceToNextUpperPipe = squashedDist2;
+                //    detailsList[i].distanceToNextBottomPipe = squashedDist3;
+                //    detailsList[i].output = output[0];
+                //}
                 ///////
             }
 
@@ -157,7 +159,7 @@ namespace FlappyBird_NeuralNetwork
         }
 
 
-        public async Task UpdateGameFrame(NeuralDetailsForm detailsForm)
+        public void UpdateGameFrame(NeuralDetailsForm detailsForm)
         {
             form.Controls["lblEpoch"].Text = "Generation " + epochNo;
             form.Controls["lblScore"].Text = "Score: " + getMaxScore(gameScore);
@@ -320,15 +322,21 @@ namespace FlappyBird_NeuralNetwork
             List<BirdSensors> birdSensors = new List<BirdSensors>();
             foreach (PictureBox bird in flapyBirds)
             {
-                foreach (List<PictureBox> pipePair in pipes)
+                for (int i = 0; i < pipes.Count; i++)
                 {
-                    if (bird.Left - (pipePair[0].Left + pipePair[0].Width)<0)//this is the next pipe pair
+                    List<PictureBox> pipePair = pipes[i];
+                    List<PictureBox> futurePipePair = null;
+                    if (pipes.Count > 1)
+                        futurePipePair = pipes[i + 1];
+
+                    if (bird.Left - (pipePair[0].Left + pipePair[0].Width) < 0)//this is the next pipe pair
                     {
                         BirdSensors birdSensor = new BirdSensors();
                         birdSensor.distanceToNextPipePair = (pipePair[0].Left) - (bird.Left + bird.Width / 2);
                         birdSensor.distanceToNextUpperPipe = bird.Top - pipePair[0].Height;
                         birdSensor.distanceToNextBottomPipe = pipePair[1].Top - bird.Top;
                         birdSensor.distanceToGapExit = birdSensor.distanceToNextPipePair + pipePair[0].Width;
+                        birdSensor.distanceToMiddleGapFuturePipePair = futurePipePair != null ? (futurePipePair[1].Top - bird.Top - pipeGap / 2) : 0;
 
                         birdSensors.Add(birdSensor);
                         break;

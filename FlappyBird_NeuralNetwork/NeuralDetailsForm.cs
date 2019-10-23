@@ -120,7 +120,7 @@ namespace FlappyBird_NeuralNetwork
                     {
                         g.DrawEllipse(p, xPositionsNeurons[i], yPositionNeurons[i][j], ellipseDimension, ellipseDimension);
                         g.FillEllipse(sb, xPositionsNeurons[i], yPositionNeurons[i][j], ellipseDimension, ellipseDimension);
-                        var rect = new Rectangle(xPositionsNeurons[i] + ellipseDimension / 7, yPositionNeurons[i][j] + 15, 55, 30);
+                        var rect = new Rectangle(xPositionsNeurons[i] + ellipseDimension / 7, yPositionNeurons[i][j] + 25, 55, 30);
 
                         //TextRenderer.DrawText(g, string.Format("{0:N2}", neuralNet.neuralLayers[i][j].value), new Font(this.Font, FontStyle.Bold), rect, Color.White, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                         setUpLabelOnPanel("lblNeuron_" + i + "_" + j, rect);
