@@ -28,7 +28,7 @@ namespace FlappyBird_NeuralNetwork
     public class GameEngine
     {        
         public int pipeSpeed = 5;
-        public int distanceBetweenPipes = 100;//480;
+        public int distanceBetweenPipes = 120;//480;
         public int gravity = 8;
         public int jump = 5;
 
@@ -39,7 +39,7 @@ namespace FlappyBird_NeuralNetwork
         public int birdPopulation = 1;
 
         public int minimumPipeLength = 120;
-        public int pipeGap = 80;//35;
+        public int pipeGap = 50;//35;
         public int pipeWidth = 120;//200;
 
         public int neuralInputSize = 5;
